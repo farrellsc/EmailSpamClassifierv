@@ -33,12 +33,12 @@ class TestDataProcessor(TestCase):
     #         out.write("\n" + str(sum(self.oneHamLoader.bagged_text[0])))
 
     def test_bulk_load(self):
-        filenames = os.listdir(self.database + "all/")
+        filenames = os.listdir(self.database + "sample/")
         labels = [0 if filename.endswith("ham.txt") else 1 for filename in filenames ]
         self.dataLoader = DataLoader(
-            ["".join(codecs.open(self.database + "all/" + name, encoding='utf8', errors='ignore').readlines())
+            ["".join(codecs.open(self.database + "sample/" + name, encoding='utf8', errors='ignore').readlines())
              for name in filenames], labels)
         self.dataLoader.strip_stem()
         self.dataLoader.split_train_test_n_bagging(0.2)
         pickle.dump(self.dataLoader,
-                    open("/media/zzhuang/00091EA2000FB1D0/iGit/git_projects/EmailSpamClassifier/data/allDataLoader", 'wb'))
+                    open("/media/zzhuang/00091EA2000FB1D0/iGit/git_projects/EmailSpamClassifier/data/sampleDataLoader", 'wb'))
