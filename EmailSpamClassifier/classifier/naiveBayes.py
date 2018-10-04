@@ -20,11 +20,13 @@ class NaiveBayes(Classifier):
                 self.bayesianTable[i, j, curClsFeatures] += 1
 
     def predict(self, x: np.array) -> np.array:
+        testsetTable = np.zeros([self.cls_num, x.shape[1], max(self.bayesianTable.shape[2], x.max()+1)])
+        testsetTable[:,:,:self.bayesianTable.shape[2]] += self.bayesianTable
         pred = np.empty([x.shape[0], 1])
         for i in range(x.shape[0]):
             probs = np.zeros([self.cls_num])
             for j in range(self.cls_num):
-                curValues = self.bayesianTable[j, :, :] + 1     # feature * maxValue
+                curValues = testsetTable[j, :, :] + 1     # feature * maxValue
                 curValues = np.apply_along_axis(lambda x: x/x.sum(), 1, curValues)
                 # print(curValues.shape, curValues.max(), curValues.min(), curValues[0,:].sum())
                 curProbs = curValues[np.arange(curValues.shape[0]), x[i, :]]
