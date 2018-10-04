@@ -20,7 +20,7 @@ class TestClassifier(TestCase):
         self.database = "/media/zzhuang/00091EA2000FB1D0/CU/SEM1/MachineLearning4771/HW/HW1/hw1data/"
         self.testbase = "/media/zzhuang/00091EA2000FB1D0/iGit/git_projects/EmailSpamClassifier/scripts/test/data/"
         self.dataLoader = pickle.load(
-            open("/media/zzhuang/00091EA2000FB1D0/iGit/git_projects/EmailSpamClassifier/data/allDataLoader", 'rb'))
+            open("/media/zzhuang/00091EA2000FB1D0/iGit/git_projects/EmailSpamClassifier/data/sampleDataLoader", 'rb'))
         [self.x_train, self.y_train], [self.x_test, self.y_test] = self.dataLoader.get_data()
         print("x_train:", self.x_train.shape)
         print("y_train:", self.y_train.shape)
@@ -29,19 +29,19 @@ class TestClassifier(TestCase):
         # logger.setLevel(logging.DEBUG)
         # logger.info("testing classifier")
 
-    # def test_naiveBayes(self):
-    #     print("testing naive bayes classifier")
-    #     nb = NaiveBayes()
-    #     nb.train(self.x_train, self.y_train)
-    #     pred = nb.predict(self.x_train)
-    #     accu = Classifier.evaluate(pred.T, self.y_train)
-    #     print("naive bayes result: %f" % accu)
-    #
-    #     sknb = GaussianNB()
-    #     sknb.fit(self.x_train, self.y_train)
-    #     skpred = sknb.predict(self.x_train)
-    #     skaccu = Classifier.evaluate(skpred, self.y_train)
-    #     print("sklearn bayesian module result: %f" % skaccu)
+    def test_naiveBayes(self):
+        print("testing naive bayes classifier")
+        nb = NaiveBayes()
+        nb.train(self.x_train, self.y_train)
+        pred = nb.predict(self.x_train)
+        accu = Classifier.evaluate(pred.T, self.y_train)
+        print("naive bayes result: %f" % accu)
+
+        sknb = GaussianNB()
+        sknb.fit(self.x_train, self.y_train)
+        skpred = sknb.predict(self.x_train)
+        skaccu = Classifier.evaluate(skpred, self.y_train)
+        print("sklearn bayesian module result: %f" % skaccu)
 
     # def test_decisionTree(self):
     #     print("testing decision tree classifier")
