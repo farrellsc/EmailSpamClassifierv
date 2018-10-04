@@ -20,7 +20,7 @@ class TestClassifier(TestCase):
         self.database = "//MachineLearning4771/HW/HW1/hw1data/"
         self.testbase = "/root/EmailSpamClassifierv/scripts/test/data/"
         self.dataLoader = pickle.load(
-            open("/root/EmailSpamClassifierv/data/allDataLoader", 'rb'))
+            open("/root/EmailSpamClassifierv/data/DataLoader2000", 'rb'))
         [self.x_train, self.y_train], [self.x_test, self.y_test] = self.dataLoader.get_data()
         print("x_train:", self.x_train.shape)
         print("y_train:", self.y_train.shape)
@@ -33,18 +33,14 @@ class TestClassifier(TestCase):
         print("testing naive bayes classifier")
         nb = NaiveBayes()
         nb.train(self.x_train, self.y_train)
-        pred = nb.predict(self.x_train)
-        accu = Classifier.evaluate(pred.T, self.y_train)
-        print("naive bayes result: %f" % accu)
-<<<<<<< HEAD
-
-=======
+        pred = nb.predict(self.x_test)
+        accu = Classifier.evaluate(pred.T, self.y_test)
+        print("data size: %d, naive bayes result: %f" % (self.y_train.size + self.y_test.size, accu))
     
->>>>>>> 2f44382b3f13f588a4d3692e99d67287a8ceab46
         sknb = GaussianNB()
         sknb.fit(self.x_train, self.y_train)
-        skpred = sknb.predict(self.x_train)
-        skaccu = Classifier.evaluate(skpred, self.y_train)
+        skpred = sknb.predict(self.x_test)
+        skaccu = Classifier.evaluate(skpred, self.y_test)
         print("sklearn bayesian module result: %f" % skaccu)
 
     #def test_decisionTree(self):

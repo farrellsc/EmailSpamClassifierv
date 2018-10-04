@@ -31,7 +31,9 @@ class DecisionTree(Classifier):
         :param root: current node
         """
         print("\n\nnew node!!! depth: %d, current size: %d" % (root.depth, root.leftGroup[1].size + root.rightGroup[1].size))
-        if root.depth >= self.params["max_tree_depth"] or root.leftGroup[1].size + root.rightGroup[1].size <= self.params['min_sample_split']:
+        if root.depth >= self.params["max_tree_depth"] or \
+                root.leftGroup[1].size + root.rightGroup[1].size <= self.params['min_sample_split'] or \
+                root.leftGroup[1].size == 0 or root.rightGroup[1].size == 0:
             self.set_leaf(root)
             return
         

@@ -20,7 +20,7 @@ class TestClassifier(TestCase):
         self.database = "//MachineLearning4771/HW/HW1/hw1data/"
         self.testbase = "/root/EmailSpamClassifierv/scripts/test/data/"
         self.dataLoader = pickle.load(
-            open("/root/EmailSpamClassifierv/data/allDataLoader", 'rb'))
+            open("/root/EmailSpamClassifierv/data/DataLoader2000", 'rb'))
         [self.x_train, self.y_train], [self.x_test, self.y_test] = self.dataLoader.get_data()
         print("x_train:", self.x_train.shape)
         print("y_train:", self.y_train.shape)
@@ -29,23 +29,19 @@ class TestClassifier(TestCase):
         # logger.setLevel(logging.DEBUG)
         # logger.info("testing classifier")
 
-    def test_naiveBayes(self):
-        print("testing naive bayes classifier")
-        nb = NaiveBayes()
-        nb.train(self.x_train, self.y_train)
-        pred = nb.predict(self.x_train)
-        accu = Classifier.evaluate(pred.T, self.y_train)
-        print("naive bayes result: %f" % accu)
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 2f44382b3f13f588a4d3692e99d67287a8ceab46
-        sknb = GaussianNB()
-        sknb.fit(self.x_train, self.y_train)
-        skpred = sknb.predict(self.x_train)
-        skaccu = Classifier.evaluate(skpred, self.y_train)
-        print("sklearn bayesian module result: %f" % skaccu)
+    #def test_naiveBayes(self):
+    #    print("testing naive bayes classifier")
+    #    nb = NaiveBayes()
+    #    nb.train(self.x_train, self.y_train)
+    #    pred = nb.predict(self.x_train)
+    #    accu = Classifier.evaluate(pred.T, self.y_train)
+    #    print("naive bayes result: %f" % accu)
+    # 
+    #    sknb = GaussianNB()
+    #    sknb.fit(self.x_train, self.y_train)
+    #    skpred = sknb.predict(self.x_train)
+    #    skaccu = Classifier.evaluate(skpred, self.y_train)
+    #    print("sklearn bayesian module result: %f" % skaccu)
 
     #def test_decisionTree(self):
     #    print("testing decision tree classifier")
@@ -61,15 +57,17 @@ class TestClassifier(TestCase):
     #    skaccu = Classifier.evaluate(skpred.T, self.y_test)
     #    print("sklearn decision tree result: %f" % skaccu)
     
-    # def test_knn(self):
-    #     print("testing k nearest neighbor classifier")
-    #     k = 10
-    #     knn = NearestNeighbors(k, 2)
-    #     knn.train(self.x_train, self.y_train)
-    #     pred = knn.predict(self.x_train)
-    #     accu = Classifier.evaluate(pred.T, self.y_train)
-    #     print("knn result: %f" % accu)
+    def test_knn(self):
+        print("testing k nearest neighbor classifier")
+        k = 10
+        knn = NearestNeighbors(k, 2)
+        knn.train(self.x_train, self.y_train)
+        pred = knn.predict(self.x_test)
+        accu = Classifier.evaluate(pred.T, self.y_test)
+        print("data size: %d, knn result: %f" % (self.y_train.size + self.y_test.size, accu))
    
-    #     skknn = KNeighborsClassifier(n_neighbors=k)
-    #     skknn.fit(self.x_train, self.y_train)
-    #     skpred = skknn.predict(self.x_train)
+        skknn = KNeighborsClassifier(n_neighbors=k)
+        skknn.fit(self.x_train, self.y_train)
+        skpred = skknn.predict(self.x_test)
+        skaccu = Classifier.evaluate(skpred.T, self.y_test)
+        print("sklearn knn result: %f" % skaccu)
