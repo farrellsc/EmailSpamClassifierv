@@ -17,10 +17,10 @@ from sklearn.model_selection import train_test_split
 
 class TestClassifier(TestCase):
     def setUp(self):
-        self.database = "/media/zzhuang/00091EA2000FB1D0/CU/SEM1/MachineLearning4771/HW/HW1/hw1data/"
-        self.testbase = "/media/zzhuang/00091EA2000FB1D0/iGit/git_projects/EmailSpamClassifier/scripts/test/data/"
+        self.database = "//MachineLearning4771/HW/HW1/hw1data/"
+        self.testbase = "/root/EmailSpamClassifierv/scripts/test/data/"
         self.dataLoader = pickle.load(
-            open("/media/zzhuang/00091EA2000FB1D0/iGit/git_projects/EmailSpamClassifier/data/allDataLoader", 'rb'))
+            open("/root/EmailSpamClassifierv/data/allDataLoader", 'rb'))
         [self.x_train, self.y_train], [self.x_test, self.y_test] = self.dataLoader.get_data()
         print("x_train:", self.x_train.shape)
         print("y_train:", self.y_train.shape)
@@ -43,20 +43,20 @@ class TestClassifier(TestCase):
     #     skaccu = Classifier.evaluate(skpred, self.y_train)
     #     print("sklearn bayesian module result: %f" % skaccu)
 
-    # def test_decisionTree(self):
-    #     print("testing decision tree classifier")
-    #     dt = DecisionTree(10, 5)
-    #     dt.train(self.x_train, self.y_train)
-    #     pred = dt.predict(self.x_test)
-    #     accu = Classifier.evaluate(pred.T, self.y_test)
-    #     print("decision tree result: %f" % accu)
-    #
-    #     skdt = DecisionTreeClassifier()
-    #     skdt.fit(self.x_train, self.y_train)
-    #     skpred = skdt.predict(self.x_test)
-    #     skaccu = Classifier.evaluate(skpred.T, self.y_test)
-    #     print("sklearn decision tree result: %f" % skaccu)
-    #
+    def test_decisionTree(self):
+        print("testing decision tree classifier")
+        dt = DecisionTree(20, 90)
+        dt.train(self.x_train, self.y_train)
+        pred = dt.predict(self.x_test)
+        accu = Classifier.evaluate(pred.T, self.y_test)
+        print("decision tree result: %f" % accu)
+    
+        skdt = DecisionTreeClassifier()
+        skdt.fit(self.x_train, self.y_train)
+        skpred = skdt.predict(self.x_test)
+        skaccu = Classifier.evaluate(skpred.T, self.y_test)
+        print("sklearn decision tree result: %f" % skaccu)
+    
     # def test_knn(self):
     #     print("testing k nearest neighbor classifier")
     #     k = 10
@@ -65,9 +65,7 @@ class TestClassifier(TestCase):
     #     pred = knn.predict(self.x_train)
     #     accu = Classifier.evaluate(pred.T, self.y_train)
     #     print("knn result: %f" % accu)
-    #
+   
     #     skknn = KNeighborsClassifier(n_neighbors=k)
     #     skknn.fit(self.x_train, self.y_train)
     #     skpred = skknn.predict(self.x_train)
-    #     skaccu = Classifier.evaluate(skpred, self.y_train)
-    #     print("sklearn knn module result: %f" % skaccu)
