@@ -20,7 +20,7 @@ class TestClassifier(TestCase):
         self.database = "//MachineLearning4771/HW/HW1/hw1data/"
         self.testbase = "/root/EmailSpamClassifierv/scripts/test/data/"
         self.dataLoader = pickle.load(
-            open("/root/EmailSpamClassifierv/data/DataLoader1000", 'rb'))
+            open("/root/EmailSpamClassifierv/data/DataLoader2000", 'rb'))
         [self.x_train, self.y_train], [self.x_test, self.y_test] = self.dataLoader.get_data()
         print("x_train:", self.x_train.shape)
         print("y_train:", self.y_train.shape)
