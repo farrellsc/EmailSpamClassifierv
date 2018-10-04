@@ -13,24 +13,23 @@ class NaiveBayes(Classifier):
 
     def train(self, x: np.array, y: np.array) -> None:
         self.cls_num = np.bincount(y).size
-        self.bayesianTable = np.zeros([self.cls_num, x.shape[1], 2])
+        self.bayesianTable = np.zeros([self.cls_num, x.shape[1], x.max()+1])
         for i in range(self.cls_num):
             for j in range(x.shape[1]):
                 curClsFeatures = x[y==i, j]
-                self.bayesianTable[i, j] = curClsFeatures.mean(), curClsFeatures.std()
+                self.bayesianTable[i, j, curClsFeatures] += 1
 
     def predict(self, x: np.array) -> np.array:
         pred = np.empty([x.shape[0], 1])
         for i in range(x.shape[0]):
             probs = np.zeros([self.cls_num])
             for j in range(self.cls_num):
-                table = self.bayesianTable[j, :, :].T
-                sample, mu, std = x[i, :], table[0, :], table[1, :]
-                curValue = gaussian_dist(sample, mu, std)
-                curValue = curValue[std != 0]
-                probs[j] += curValue.mean()
-                print(curValue)
-                print("mean:", curValue.mean(), "size:", curValue.size, "prod: ", probs[j])
+                curValues = self.bayesianTable[j, :, :] + 1     # feature * maxValue
+                curValues = np.apply_along_axis(lambda x: x/x.sum(), 1, curValues)
+                # print(curValues.shape, curValues.max(), curValues.min(), curValues[0,:].sum())
+                curProbs = curValues[np.arange(curValues.shape[0]), x[i, :]]
+                curProbs = curProbs-curProbs.mean()+1
+                probs[j] = np.prod(curProbs)
             pred[i] = probs.argmax()
         print(pred.T)
         return pred
